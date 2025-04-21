@@ -10,6 +10,7 @@ import type { CustomBotEvents, MergedEvents, WorldEvents } from "../types/events
 import Queue from "../util/Queue.js";
 import type { OmitRecursively, Optional, Promisable } from "../types/misc.js";
 import { isCustomPacket } from "../util/Misc.js";
+import { customSetTimeout } from "../util/Timeout.js";
 
 type SafeCheck<K extends keyof MergedEvents, State extends Partial<{ [K in keyof MergedEvents]: any }>> = State extends CustomBotEvents ? never : State[K];
 
@@ -166,7 +167,7 @@ export default class PWGameClient
                         init = true; res(this);
 
                         // Give the client the init again as they might could have missed it even by a few milliseconds.
-                        return setTimeout(() => {
+                        return customSetTimeout(() => {
                             // TODO: deduplicate this part.
                             if (this.hooks.length) {
                                 try {
