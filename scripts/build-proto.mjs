@@ -6,7 +6,7 @@ import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 
 // import {  } from "node:fs";
 
-const res = await fetch("https://raw.githubusercontent.com/PixelWalkerGame/Protocol/refs/heads/main/world.proto");
+const res = await fetch("https://raw.githubusercontent.com/PixelWalkerGame/Protocol/refs/heads/new/world.proto");
 
 // console.log(res);
 
