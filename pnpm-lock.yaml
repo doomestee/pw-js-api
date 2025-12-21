@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bufbuild/protobuf':
-        specifier: ~2.2.3
-        version: 2.2.3
+        specifier: ~2.6.3
+        version: 2.6.3
       browser-or-node:
         specifier: ^3.0.0
         version: 3.0.0
@@ -25,11 +25,11 @@ importers:
         version: 8.0.22
     devDependencies:
       '@bufbuild/buf':
-        specifier: ~1.48.0
-        version: 1.48.0
+        specifier: ~1.56.0
+        version: 1.56.0
       '@bufbuild/protoc-gen-es':
-        specifier: ~2.2.3
-        version: 2.2.3(@bufbuild/protobuf@2.2.3)
+        specifier: ~2.6.3
+        version: 2.6.3(@bufbuild/protobuf@2.6.3)
       '@favware/npm-deprecate':
         specifier: ^2.0.0
         version: 2.0.0
@@ -64,68 +64,68 @@ packages:
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
 
-  '@bufbuild/buf-darwin-arm64@1.48.0':
-    resolution: {integrity: sha512-cn00IDkwQVER8Z/PxAdWRPZ5peXcAeWSkRp5NhUd1BmK+1/4hqv41VnFQJCPpnurPcdR3a7ieG5h7ZMOLoy+ww==}
+  '@bufbuild/buf-darwin-arm64@1.56.0':
+    resolution: {integrity: sha512-9neaI9gx1sxOGl9xrL7kw6H+0WmVAFlIQTIDc3vt1qRhfgOt/8AWOHSOWppGTRjNiB0qh6Xie1LYHv/jgDVN0g==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
 
-  '@bufbuild/buf-darwin-x64@1.48.0':
-    resolution: {integrity: sha512-1CaNgB/xbJdiUdK3AUtIzG6a43V0mHGPWrOxlxsWl9dGYu53yuIUmQI5e4UIU7SghPqwSlaQBeIrQnK2wFUb7Q==}
+  '@bufbuild/buf-darwin-x64@1.56.0':
+    resolution: {integrity: sha512-nRHPMXV8fr/lqU+u/1GGsUg7OvNcxJuCJoJpfRoRg38b+NPzOz2FkQAs5OEJzzprQB5aftn5//cl8YXjgvTuFA==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
 
-  '@bufbuild/buf-linux-aarch64@1.48.0':
-    resolution: {integrity: sha512-7npsOiKckcQuXLot3B/gpAf6dtSqW8RRWgCK0Tl7LSnjJHcRhrSYQjaEiwDABK/OZFFL2id6suU9lqN7Wc9zgg==}
+  '@bufbuild/buf-linux-aarch64@1.56.0':
+    resolution: {integrity: sha512-+td559RuKNwYDnq49NrIDGJ4F73Ra4QzVVbsC+UeveA0HMnIGRzFbchGjHtNJyaZsI57sXJ7dCHH0iFV3jcYwQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
 
-  '@bufbuild/buf-linux-armv7@1.48.0':
-    resolution: {integrity: sha512-fHWz7AXP2gpKqtYqhvMN7Jr9BEIrZw2y797SSJ5A0CGEABNXVIjaToRy+iZosijvJu2N5eY+WHw8C6ZCiz1Pgg==}
+  '@bufbuild/buf-linux-armv7@1.56.0':
+    resolution: {integrity: sha512-9v3zmos6wRTBc4QeIg4rfDmPzmTgtUTRCbhr87qws/yddIT8cFtHHhy1whnozBNqtmYOdwZNBNx/QXqGGcRuKw==}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
 
-  '@bufbuild/buf-linux-x64@1.48.0':
-    resolution: {integrity: sha512-MtKKmKUY4wpg40P7Es0rvrpq6HGjIOmPt0wKB9tInv7F40Vx8lB9POYmnNTYxo2QbWfves9y/G31THEE/QIwIg==}
+  '@bufbuild/buf-linux-x64@1.56.0':
+    resolution: {integrity: sha512-3jZHHBol1fuichNke7LJtHJUdw314XBj6OuJHY6IufsaaVIj1mtM2DPbGiDhYB453J7FiV/buadctKBxAAHclg==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
 
-  '@bufbuild/buf-win32-arm64@1.48.0':
-    resolution: {integrity: sha512-5x0pg6qWrKiDb1I7xHZd+s06fVYGJCOzQ7O+PVosxP1Wfop5JBOkewqjEGarWbbmGsRr3ctSHaRwgoBf8tg/6A==}
+  '@bufbuild/buf-win32-arm64@1.56.0':
+    resolution: {integrity: sha512-KMGzSf9rIbT01Jb2685JovwRRYEdL7Zbs6ZrjyhIHBgKK6cBwz1AJvEaDrWMEzCdv+opQwjgM6UdtA4e9BWP1A==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
 
-  '@bufbuild/buf-win32-x64@1.48.0':
-    resolution: {integrity: sha512-Hdp/BNk6d5rBiqE0SjPk4F4G2wwAw6twasCW3ZcmYmzxXWG1YcwAx8kE7uMTF5VM21BNH2nzFksTGU5CrmAjBw==}
+  '@bufbuild/buf-win32-x64@1.56.0':
+    resolution: {integrity: sha512-19LFOCyFFVTaaqNGtYTpiF67fcpneWZFlm8UNU+Xs87Kh+N5i/LjDjNytnpFT6snwU4/S+UUkq7WgS6UPjqXIg==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
 
-  '@bufbuild/buf@1.48.0':
-    resolution: {integrity: sha512-pwq34YC0OnyNeSXu1T7Hfg0etDi+2CS3AIwkFODVtdBLHhhuaLCFKPbUA1L/6ZChin56L5MJiUM2/nRB9HI3zQ==}
+  '@bufbuild/buf@1.56.0':
+    resolution: {integrity: sha512-1xQWOf3FCDDTi+5B/VScQ73EP6ACwQPCP4ODvCq2L6IVgFtvYX49ur6cQ2qCM8yFitIHESm/Nbff93sh+V/Iog==}
     engines: {node: '>=12'}
     hasBin: true
 
-  '@bufbuild/protobuf@2.2.3':
-    resolution: {integrity: sha512-tFQoXHJdkEOSwj5tRIZSPNUuXK3RaR7T1nUrPgbYX1pUbvqqaaZAsfo+NXBPsz5rZMSKVFrgK1WL8Q/MSLvprg==}
+  '@bufbuild/protobuf@2.6.3':
+    resolution: {integrity: sha512-w/gJKME9mYN7ZoUAmSMAWXk4hkVpxRKvEJCb3dV5g9wwWdxTJJ0ayOJAVcNxtdqaxDyFuC0uz4RSGVacJ030PQ==}
 
-  '@bufbuild/protoc-gen-es@2.2.3':
-    resolution: {integrity: sha512-hdhIV9NmwXXy24DcbnArauv6L5Dv2PjkO9gz2DUhiZ9HPRpP+rmpT8zo5LohjJiuA7YIQGGKKWSKpRg+xcdLSQ==}
+  '@bufbuild/protoc-gen-es@2.6.3':
+    resolution: {integrity: sha512-20o4U/Th0yLK/ayQGJ8hwh+fmcI/2PWZFkTS4gv08AtOx31YA05/X/wbn+pLZLJCDP2ik4KTIWuV1j4gERs15A==}
     engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
-      '@bufbuild/protobuf': 2.2.3
+      '@bufbuild/protobuf': 2.6.3
     peerDependenciesMeta:
       '@bufbuild/protobuf':
         optional: true
 
-  '@bufbuild/protoplugin@2.2.3':
-    resolution: {integrity: sha512-UsV7mj6NJTZrqIYJK+jNFnnj5tOS7wgNXKyMjebFEpf+OX6pfXE+nx+QPjumOfu4GxdVPfEDnKuwISgqlXSQqw==}
+  '@bufbuild/protoplugin@2.6.3':
+    resolution: {integrity: sha512-VceMuxeRukxGeABfo34SXq0VqY1MU+mzS+PBf0HAWo97ylFut8F6sQ3mV0tKiM08UQ/xQco7lxCn83BkoxrWrA==}
 
   '@discoveryjs/json-ext@0.6.3':
     resolution: {integrity: sha512-4B4OijXeVNOPZlYA2oEwWOTkzyltLao+xbotHQeqN++Rv27Y6s818+n2Qkp8q+Fxhn0t/5lA5X1Mxktud8eayQ==}
@@ -1516,50 +1516,50 @@ snapshots:
 
   '@babel/runtime@7.27.6': {}
 
-  '@bufbuild/buf-darwin-arm64@1.48.0':
+  '@bufbuild/buf-darwin-arm64@1.56.0':
     optional: true
 
-  '@bufbuild/buf-darwin-x64@1.48.0':
+  '@bufbuild/buf-darwin-x64@1.56.0':
     optional: true
 
-  '@bufbuild/buf-linux-aarch64@1.48.0':
+  '@bufbuild/buf-linux-aarch64@1.56.0':
     optional: true
 
-  '@bufbuild/buf-linux-armv7@1.48.0':
+  '@bufbuild/buf-linux-armv7@1.56.0':
     optional: true
 
-  '@bufbuild/buf-linux-x64@1.48.0':
+  '@bufbuild/buf-linux-x64@1.56.0':
     optional: true
 
-  '@bufbuild/buf-win32-arm64@1.48.0':
+  '@bufbuild/buf-win32-arm64@1.56.0':
     optional: true
 
-  '@bufbuild/buf-win32-x64@1.48.0':
+  '@bufbuild/buf-win32-x64@1.56.0':
     optional: true
 
-  '@bufbuild/buf@1.48.0':
+  '@bufbuild/buf@1.56.0':
     optionalDependencies:
-      '@bufbuild/buf-darwin-arm64': 1.48.0
-      '@bufbuild/buf-darwin-x64': 1.48.0
-      '@bufbuild/buf-linux-aarch64': 1.48.0
-      '@bufbuild/buf-linux-armv7': 1.48.0
-      '@bufbuild/buf-linux-x64': 1.48.0
-      '@bufbuild/buf-win32-arm64': 1.48.0
-      '@bufbuild/buf-win32-x64': 1.48.0
+      '@bufbuild/buf-darwin-arm64': 1.56.0
+      '@bufbuild/buf-darwin-x64': 1.56.0
+      '@bufbuild/buf-linux-aarch64': 1.56.0
+      '@bufbuild/buf-linux-armv7': 1.56.0
+      '@bufbuild/buf-linux-x64': 1.56.0
+      '@bufbuild/buf-win32-arm64': 1.56.0
+      '@bufbuild/buf-win32-x64': 1.56.0
 
-  '@bufbuild/protobuf@2.2.3': {}
+  '@bufbuild/protobuf@2.6.3': {}
 
-  '@bufbuild/protoc-gen-es@2.2.3(@bufbuild/protobuf@2.2.3)':
+  '@bufbuild/protoc-gen-es@2.6.3(@bufbuild/protobuf@2.6.3)':
     dependencies:
-      '@bufbuild/protoplugin': 2.2.3
+      '@bufbuild/protoplugin': 2.6.3
     optionalDependencies:
-      '@bufbuild/protobuf': 2.2.3
+      '@bufbuild/protobuf': 2.6.3
     transitivePeerDependencies:
       - supports-color
 
-  '@bufbuild/protoplugin@2.2.3':
+  '@bufbuild/protoplugin@2.6.3':
     dependencies:
-      '@bufbuild/protobuf': 2.2.3
+      '@bufbuild/protobuf': 2.6.3
       '@typescript/vfs': 1.6.0(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
