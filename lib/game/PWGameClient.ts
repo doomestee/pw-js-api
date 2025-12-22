@@ -468,6 +468,6 @@ export default class PWGameClient
 
 // "WorldBlockFilledPacket" doesn't even bloody work, but I cba as this will make do since block place is the only thing matters.
 type Sendable<E extends keyof WorldEvents, WE extends WorldEvents>
-    = E extends "worldBlockPlacedPacket" ? Optional<WorldBlockPlacedPacket, "extraFields"> 
-    : E extends "WorldBlockFilledPacket" ? Optional<WorldBlockFilledPacket, "extraFields">
+    = E extends "worldBlockPlacedPacket" ? Optional<WorldBlockPlacedPacket, "fields"> 
+    : E extends "WorldBlockFilledPacket" ? Optional<WorldBlockFilledPacket, "fields">
     : E extends "playerChatPacket" ? Omit<PlayerChatPacket, "playerId"> : WE[E];
