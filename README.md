@@ -33,18 +33,18 @@ NOTE: installing pw-js-api#dev is also available if you wish, there may be no di
 You could use a CDN like jsdelivr or unpkg. You can put this in your HTML page:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/pw-js-api@0.1.1/browser/pw.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pw-js-api@0.3.15/browser/pw.prod.js"></script>
 ```
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/pw-js-api@0.1.1/browser/pw.dev.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pw-js-api@0.3.15/browser/pw.dev.js"></script>
 ```
 
 When you have these scripts in your HTML file, you will be able to use the global variable PW which contains PWGameClient, PWApiClient and Constants.
 
 ## Example
 
-Feel free to take a look at the [source code for an example bot](https://github.com/doomestee/PW-JS-Api/blob/main/examples/) that only does snake and listen to certain chat commands (.ping, .say and .disconnect)
+Feel free to take a look at the [source code for an example bot](/examples/index.mjs) that only does snake and listen to certain chat commands (.ping, .say and .disconnect)
 
 ## Why?
 
