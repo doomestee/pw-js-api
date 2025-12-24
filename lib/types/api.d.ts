@@ -177,16 +177,14 @@ export interface ListBlockResult {
      */
     MinimapColor?: number;
     /**
-     * EELVL ID.
+     * Maps to block(s) in EE that might be identical, its value will either be null or a list of argument types.
+     * 
+     * NOTE: The object will be empty if there isnt a corresponding block, it will not be undefined still.
      */
-    LegacyId?: number;
-    /**
-     * Maps to a block in EE that might be identical, its value will either be null or a list of argument types.
-     */
-    LegacyMorph?: { [blockId: number]: null | number[] }[];
+    LegacyMorphs: { [blockId: number]: null | number[] };
 }
 
-export interface BlockField<T extends string = string> {
+export interface BlockField<T extends string, TypeOf> {
     /**
      * Name of the field, used for identifying the field.
      */
@@ -200,19 +198,25 @@ export interface BlockField<T extends string = string> {
      */
     Description: string;
     /**
+     * The default value set for this field.
+     * 
+     * If applicable.
+     */
+    DefaultValue?: TypeOf;
+    /**
      * Whether if this field is required.
      */
     Required: boolean
 }
 
-export interface TextBlockField extends BlockField<"String"> {
+export interface TextBlockField extends BlockField<"String", string> {
     /**
-     * May not be included, if so, this will be a regex string which validates the input.
+     * This will be a regex string which validates the input if not undefined.
      */
     Pattern?: string;
 }
 
-export interface NumberBlockField extends BlockField<"Int32" | "UInt32"> {
+export interface NumberBlockField extends BlockField<"Int32" | "UInt32", number> {
     /**
      * The minimum possible value for this field.
      */
@@ -222,38 +226,29 @@ export interface NumberBlockField extends BlockField<"Int32" | "UInt32"> {
      */
     MaxValue: number;
     /**
-     * The default value set for this number field.
-     */
-    DefaultValue: number;
-
-    /**
      * May not be included, if so, this will be a list of numbers whose values cannot be given for this field.
      */
     ExcludedValues?: number[]
 }
 
-export interface BoolBlockField extends BlockField<"Boolean"> {
-    /**
-     * The default value set for this boolean field.
-     */
-    DefaultValue: boolean;
+export interface BoolBlockField extends BlockField<"Boolean", boolean> {
 }
 
 /**
  * Block field special for Note blocks.
  */
-export interface NoteBlockField extends BlockField<"DrumNote[]" | "PianoNote[]" | "GuitarNote[]"> {
+export interface NoteBlockField extends BlockField<"DrumNote[]" | "PianoNote[]" | "GuitarNote[]", never> {
     /**
-     * Usually 1
+     * For note fields, it's currently just 1 for now.
      */
     MinLength: number;
     /**
-     * Usually 6
+     * For note fields, it's currently just 6 for now.
      */
     MaxLength: number;
 }
 
-export type AnyBlockField = BlockField | TextBlockField | NumberBlockField | BoolBlockField | NoteBlockField;
+export type AnyBlockField = TextBlockField | NumberBlockField | BoolBlockField | NoteBlockField;
 
 
 export interface ApiClientOptions {
