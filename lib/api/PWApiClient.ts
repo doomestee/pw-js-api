@@ -2,6 +2,7 @@ import PWGameClient from "../game/PWGameClient.js";
 import type { APIFailure, AuthResultSuccess, CollectionResult, ColUser, ColQuery, ColWorld, JoinKeyResult, ListBlockResult, LobbyResult, ApiClientOptions } from "../types/api.js";
 import type { GameClientSettings, WorldJoinData } from "../types/game.js";
 import { Endpoint } from "../util/Constants.js";
+import { APIError } from "../util/Errors.js";
 import { mergeObjects, queryToString } from "../util/Misc.js";
 
 /**
@@ -129,8 +130,9 @@ export default class PWApiClient {
      */
     static roomTypes:string[] = [];
 
-    // I feel like this is cursed.
     /**
+     * @deprecated
+     * 
      * This will be an empty array if getRoomTypes has never been used successfully at least once.
      */
     get roomTypes() {
@@ -138,6 +140,8 @@ export default class PWApiClient {
     }
 
     /**
+     * @deprecated This will be removed when the endpoint no longer exists. Use getVersion()
+     * 
      * Non-authenticated. This will refresh the room types each time, so make sure to check if roomTypes is available.
      */
     getRoomTypes() {
@@ -145,6 +149,8 @@ export default class PWApiClient {
     }
 
     /**
+     * @deprecated This will be removed when the endpoint no longer exists. Use getVersion()
+     * 
      * Non-authenticated. This will refresh the room types each time, so make sure to check if roomTypes is available.
      */
     static getRoomTypes(EndpointURL: string = Endpoint.GameHTTP) {
@@ -156,6 +162,50 @@ export default class PWApiClient {
             })
             .then(() => {
                 return PWApiClient.roomTypes;
+            })
+    }
+    
+    /**
+     * This will be undefined if getVersion has never been used successfully at least once.
+     * 
+     * (The function is automatically called when joining a world for the first time)
+     */
+    static gameVersion?:string;
+    
+    /**
+     * This will be undefined if getVersion has never been used successfully at least once.
+     */
+    get gameVersion() {
+        return PWApiClient.gameVersion;
+    }
+
+    /**
+     * Non-authenticated. This will refresh the room types each time, so make sure to check if roomTypes is available.
+     * 
+     * This will also atuomatically get all blocks.
+     */
+    getVersion() {
+        return PWApiClient.getVersion(this.options.endpoints.GameHTTP);
+    }
+
+    /**
+     * Non-authenticated. This will refresh the version each time, so make sure to check if roomTypes is available.
+     * 
+     * This will also atuomatically get all blocks.
+     */
+    static getVersion(EndpointURL: string = Endpoint.GameHTTP) {
+        return this.request<{ version: string }>(`${EndpointURL}/version`, undefined, undefined, EndpointURL !== Endpoint.GameHTTP)
+            .then(res => {
+                if ("version" in res) {
+                    PWApiClient.gameVersion = res.version;
+
+                    return this.getListBlocks(true);
+                }
+
+                throw new APIError("Version is missing when trying to fetch current version.", "MISSING_VERSION");
+            })
+            .then(() => {
+                return PWApiClient.gameVersion;
             })
     }
 
@@ -223,6 +273,8 @@ export default class PWApiClient {
             .then(res => {
                 const obj = {} as Record<string, ListBlockResult>;
                 const arr = [] as Array<ListBlockResult>; // PW doesn't sort the returned endpoint data despite data structure means it's perfectly capable
+
+                if (res.length === 0) throw new APIError("Received no blocks when trying to fetch latest blocks", "MISSING_BLOCKS");
 
                 for (let i = 0, len = res.length; i < len; i++) {
                     obj[res[i].PaletteId.toUpperCase()] = res[i];
