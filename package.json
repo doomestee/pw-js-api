@@ -1,6 +1,6 @@
 {
   "name": "pw-js-api",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "A PixelWalker Library, aims to be minimal with support for browsers.",
   "scripts": {
     "test": "bun test/index.ts",
