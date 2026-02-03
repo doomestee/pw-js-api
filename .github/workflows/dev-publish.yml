@@ -1,8 +1,4 @@
-on: 
-  # workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+on:
 
 jobs:
   publish:
