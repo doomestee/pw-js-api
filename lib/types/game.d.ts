@@ -1,7 +1,8 @@
 /** @module Types/Game */
 
-import type { WorldPacket } from "../gen/world_pb";
+import type { PlayerChatPacket, WorldBlockFilledPacket, WorldBlockPlacedPacket, WorldPacket } from "../gen/world_pb";
 import type { WorldEvents } from "./events";
+import type { CleanProtoMessage, Optional } from "./misc";
 
 export interface GameClientSettings {
     /**
@@ -56,3 +57,18 @@ export interface WorldJoinData {
 export type Hook<State extends Pick<Partial<{
 [K in keyof WorldEvents]: any;
 }>, keyof WorldEvents>> = (packet: WorldPacket) => void;
+
+// "WorldBlockFilledPacket" doesn't even bloody work, but I cba as this will make do since block place is the only thing matters.
+export type Sendable<E extends keyof WorldEvents, WE extends WorldEvents>
+    = E extends "worldBlockPlacedPacket" ? Optional<WorldBlockPlacedPacket, "fields"> 
+    : E extends "WorldBlockFilledPacket" ? Optional<WorldBlockFilledPacket, "fields">
+    : E extends "playerChatPacket" ? Omit<PlayerChatPacket, "playerId"> : WE[E];
+
+export interface ISendablePacket<EventType extends keyof WorldEvents = keyof WorldEvents> {
+    type: EventType;
+    packet?: CleanProtoMessage<Sendable<EventType, WorldEvents>>;
+    /**
+     * If true, this packet will be sent directly instead of using queue for this.
+     */
+    direct?: boolean;
+}

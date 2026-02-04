@@ -1,14 +1,14 @@
 import type PWApiClient from "../api/PWApiClient.js";
 import { type Ping, type PlayerChatPacket, type WorldBlockFilledPacket, type WorldBlockPlacedPacket, WorldPacket, WorldPacketSchema } from "../gen/world_pb.js";
-import type { GameClientSettings, WorldJoinData, Hook } from "../types/game.js"
+import type { GameClientSettings, WorldJoinData, Hook, ISendablePacket, Sendable } from "../types/game.js"
 import { Endpoint } from "../util/Constants.js";
-import { AuthError } from "../util/Errors.js";
+import { APIError, AuthError } from "../util/Errors.js";
 
 import { WebSocket } from "isows";
 import { create, fromBinary, toBinary } from "@bufbuild/protobuf";
 import type { CustomBotEvents, MergedEvents, WorldEvents } from "../types/events.js";
 import Queue from "../util/Queue.js";
-import type { OmitRecursively, Optional, Promisable } from "../types/misc.js";
+import type { CleanProtoMessage, Promisable } from "../types/misc.js";
 import { isCustomPacket } from "../util/Misc.js";
 import { customSetTimeout } from "../util/Timeout.js";
 
@@ -431,23 +431,69 @@ export default class PWGameClient
     }
 
     /**
-     * This assumes that the connection 
+     * Sends a packet to the game server.
      * 
      * @param type Type of the packet.
      * @param value Value of the packet to send along with, note that some properties are optional.
      * @param direct If it should skip queue.
      */
-    send<Event extends keyof WorldEvents>(type: Event, value?: OmitRecursively<Sendable<Event, WorldEvents>, "$typeName"|"$unknown">, direct = false) {
-        this.invoke("debug", "Sent " + type + " with " + (value === undefined ? "0" : Object.keys(value).length) + " parameters.");
+    send<Event extends keyof WorldEvents>(type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: boolean) : void {
+    // send(...packets: ISendablePacket[]) : void;
+    // send<Event extends keyof WorldEvents>(...packets: (ISendablePacket[] | [type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: false])) : void {//type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct = false) : void {
+        // this.invoke("debug", "Sent " + type + " with " + (value === undefined ? "0" : Object.keys(value).length) + " parameters.");
 
-        const send = () => this.socket?.send(
-            toBinary(WorldPacketSchema, create(WorldPacketSchema, { packet: { case: type, value } as unknown as { case: "ping", value: Ping } }))
-        );
+        // if (typeof packets[0] === "string") {
+            return this.sendRange({
+        //         type: packets[0],
+        //         packet: packets[1],
+        //         direct: packets[2] as boolean
+        //     })
+        // }
 
-        if (direct) return send();
+        // return this.sendRange(...packets as ISendablePacket[]);
+        //({
+            type: type,
+            packet: value,
+            direct
+        });
+    }
 
-        if (type === "playerChatPacket") this.chatBucket.queue(() => { send(); })
-        else this.totalBucket.queue(() => { send(); })
+    /**
+     * Difference between this and send is that you can include the packet type in sendRange
+     * for each argument. This means you can pass in list of block and label packets for example.
+     */
+    sendRange(...packets: ISendablePacket[]) {
+        let count = 0;
+
+        for (let i = 0, len = packets.length; i < len; i++) {
+            const packet = packets[i];
+
+            if (!packet.type) continue;
+
+            count++;
+
+            if (packet.direct) {
+                this.socket?.send(
+                    toBinary(WorldPacketSchema, create(WorldPacketSchema, {
+                        packet: { case: packet.type as "ping", value: packet.packet as Ping }
+                    }))
+                )
+            } else {
+                let bucket:"totalBucket"|"chatBucket" = "totalBucket";
+
+                if (packet.type === "playerChatPacket") bucket = "chatBucket";
+
+                this[bucket].queue(() => {
+                    this.socket?.send(
+                        toBinary(WorldPacketSchema, create(WorldPacketSchema, {
+                            packet: { case: packet.type as "ping", value: packet.packet as Ping }
+                        }))
+                    )
+                });
+            }
+        }
+
+        this.invoke("debug", `Sent ${count} packets.`);
     }
 
     /**
@@ -465,9 +511,3 @@ export default class PWGameClient
         return this.socket?.readyState === WebSocket.CLOSED;
     }
 }
-
-// "WorldBlockFilledPacket" doesn't even bloody work, but I cba as this will make do since block place is the only thing matters.
-type Sendable<E extends keyof WorldEvents, WE extends WorldEvents>
-    = E extends "worldBlockPlacedPacket" ? Optional<WorldBlockPlacedPacket, "fields"> 
-    : E extends "WorldBlockFilledPacket" ? Optional<WorldBlockFilledPacket, "fields">
-    : E extends "playerChatPacket" ? Omit<PlayerChatPacket, "playerId"> : WE[E];

@@ -15,3 +15,9 @@ export type OmitRecursively<T, K extends PropertyKey> = Omit<
 >
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+
+/**
+ * Removes the additional parameters associated
+ * with bufbuild's message.
+ */
+export type CleanProtoMessage<T extends object> = OmitRecursively<T, "$typeName"|"$unknown">;
