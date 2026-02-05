@@ -437,28 +437,32 @@ export default class PWGameClient
      * @param value Value of the packet to send along with, note that some properties are optional.
      * @param direct If it should skip queue.
      */
-    send<Event extends keyof WorldEvents>(type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: boolean) : void {
+    send<Event extends keyof WorldEvents>(type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: boolean) : void
+    /**
+     * Sends a packet to the game server.
+     * 
+     * @param packet The ISendablePacket form of the packet.
+     */
+    send(packet: ISendablePacket) : void
+    send<Event extends keyof WorldEvents>(type: Event | ISendablePacket, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: boolean) : void {
     // send(...packets: ISendablePacket[]) : void;
     // send<Event extends keyof WorldEvents>(...packets: (ISendablePacket[] | [type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct?: false])) : void {//type: Event, value?: CleanProtoMessage<Sendable<Event, WorldEvents>>, direct = false) : void {
         // this.invoke("debug", "Sent " + type + " with " + (value === undefined ? "0" : Object.keys(value).length) + " parameters.");
 
-        // if (typeof packets[0] === "string") {
+        if (typeof type === "string") {
             return this.sendRange({
-        //         type: packets[0],
-        //         packet: packets[1],
-        //         direct: packets[2] as boolean
-        //     })
-        // }
-
-        // return this.sendRange(...packets as ISendablePacket[]);
-        //({
-            type: type,
-            packet: value,
-            direct
-        });
+                type: type,
+                packet: value,
+                direct
+            });
+        } else {
+            return this.sendRange(type);
+        }
     }
 
     /**
+     * Sends a series of packets to the game server.
+     * 
      * Difference between this and send is that you can include the packet type in sendRange
      * for each argument. This means you can pass in list of block and label packets for example.
      */
