@@ -2,6 +2,7 @@ export type * from "./types/index.d.ts";
 export { default as PWApiClient } from "./api/PWApiClient.js";
 export { default as PWGameClient } from "./game/PWGameClient.js";
 export { default as PWAtlases } from "./api/PWAtlases.js";
+export { default as PWCatalog } from "./api/PWCatalog.js";
 export * from "./util/Constants.js";
 export * as Constants from "./util/Constants.js";
 export * as Errors from "./util/Errors.js";
