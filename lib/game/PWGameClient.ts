@@ -70,9 +70,10 @@ export default class PWGameClient
         if (this.socket?.readyState === WebSocket.CONNECTING) throw Error("Already trying to connect.");
         // if (!this.api.loggedIn) throw Error("API isn't logged in, you must use authenticate first.");
 
-        const roomType = this.api.roomTypes?.[0] ?? await this.api.getRoomTypes().then(rTypes => rTypes[0]);
+        const version = this.api.gameVersion ?? await this.api.getVersion();
+        if (version === undefined) throw new APIError("Version is missing when trying to fetch current version.", "MISSING_VERSION");
 
-        const joinReq = await this.api.getJoinKey(roomType, roomId);
+        const joinReq = await this.api.getJoinKey(roomId, version);
 
         if (!("token" in joinReq) || joinReq.token.length === 0) throw Error("Unable to secure a join key - is account details valid?");
 

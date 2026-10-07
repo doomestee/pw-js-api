@@ -3,7 +3,7 @@ import { Endpoint } from "../util/Constants.js";
 import PWApiClient from "./PWApiClient.js";
 
 /**
- * This standalone class has all (static) functions related to the atlases.
+ * This standalone class has all (static) functions related to the atlases (SEPARATE TO CATALOG).
  */
 export default class PWAtlases {
     /**

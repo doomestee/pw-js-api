@@ -1,6 +1,9 @@
-import PWGameClient from "../game/PWGameClient.js";
 import type { APIFailure, AuthResultSuccess, CollectionResult, ColUser, ColQuery, ColWorld, JoinKeyResult, ListBlockResult, LobbyResult, ApiClientOptions } from "../types/api.js";
 import type { GameClientSettings, WorldJoinData } from "../types/game.js";
+
+import PWGameClient from "../game/PWGameClient.js";
+import PWCatalog from "./PWCatalog.js";
+
 import { Endpoint } from "../util/Constants.js";
 import { APIError } from "../util/Errors.js";
 import { mergeObjects, queryToString } from "../util/Misc.js";
@@ -30,12 +33,16 @@ export default class PWApiClient {
      * This will be undefined if getListBlocks() hasn't been run once.
      * 
      * (This is sorted by ID)
+     * 
+     * @deprecated - Use PWCatalog
      */
     static listBlocks: ListBlockResult[] | undefined;
     /**
      * This will be undefined if getListBlocks() hasn't been run once.
      * 
      * NOTE: The keys are in UPPER_CASE form.
+     * 
+     * @deprecated - Use PWCatalog
      */
     static listBlocksObj: Record<string, ListBlockResult> | undefined;
 
@@ -106,10 +113,12 @@ export default class PWApiClient {
     }
 
     /**
-     * Internal.
+     * Accepts version to prevent refetching the blocks.
      */
-    getJoinKey(roomType: string, roomId: string) {
-        return this.request<JoinKeyResult>(`${this.options.endpoints.Api}/api/joinkey/${roomType}/${roomId}`, undefined, true, this.options.endpoints.Api !== Endpoint.Api);
+    async getJoinKey(roomId: string, version?: string) {
+        return this.request<JoinKeyResult>(`${this.options.endpoints.Api}/api/joinkey/${roomId}`, {
+            ProtoVersion: version ?? await this.getVersion()//this.gameVersion
+        } satisfies { ProtoVersion: string }, true, this.options.endpoints.Api !== Endpoint.Api);
     }
 
     /**
@@ -180,9 +189,9 @@ export default class PWApiClient {
     }
 
     /**
-     * Non-authenticated. This will refresh the room types each time, so make sure to check if roomTypes is available.
+     * Non-authenticated. This will refresh the room types each time.
      * 
-     * This will also atuomatically get all blocks.
+     * This will automatically get all blocks.
      */
     getVersion() {
         return PWApiClient.getVersion(this.options.endpoints.GameHTTP);
@@ -191,44 +200,22 @@ export default class PWApiClient {
     /**
      * Non-authenticated. This will refresh the version each time, so make sure to check if roomTypes is available.
      * 
-     * This will also atuomatically get all blocks.
+     * This will automatically get all blocks.
      */
-    static getVersion(EndpointURL: string = Endpoint.GameHTTP) {
-        return this.request<{ version: string }>(`${EndpointURL}/version`, undefined, undefined, EndpointURL !== Endpoint.GameHTTP)
+    static getVersion(EndpointURL: string = Endpoint.GameHTTP) : Promise<string> {
+        return this.request<{ protoVersion: string }>(`${EndpointURL}/version`, undefined, undefined, EndpointURL !== Endpoint.GameHTTP)
             .then(res => {
-                if ("version" in res) {
-                    PWApiClient.gameVersion = res.version;
+                if ("protoVersion" in res) {
+                    PWApiClient.gameVersion = res.protoVersion;
 
-                    return this.getListBlocks(true);
+                    return PWCatalog.getBlocks(true);//this.getListBlocks(true);
                 }
 
                 throw new APIError("Version is missing when trying to fetch current version.", "MISSING_VERSION");
             })
             .then(() => {
-                return PWApiClient.gameVersion;
+                return PWApiClient.gameVersion as string;
             })
-    }
-
-    /**
-     * Non-authenticated. Returns the mappings from the game API.
-     * 
-     * Note: This library also exports "BlockNames" which is an enum containing the block names along with their respective id.
-     * 
-     * @deprecated Use getListBlocks()
-     */
-    getMappings() {
-        return PWApiClient.getMappings();
-    }
-
-    /**
-     * Non-authenticated. Returns the mappings from the game API.
-     * 
-     * Note: This library also exports "BlockNames" which is an enum containing the block names along with their respective id.
-     * 
-     * @deprecated Use getListBlocks()
-     */
-    static getMappings() {
-        return this.request<Record<string, number>>(`${Endpoint.GameHTTP}/mappings`);
     }
 
     /**
@@ -239,7 +226,9 @@ export default class PWApiClient {
      * 
      * This is automatically invoked when getRoomTypes() is invoked to clear cache.
      * 
-     * Note: This library also exports "BlockNames" which is an enum containing the block names along with their respective id.     * 
+     * Note: This library also exports "BlockNames" which is an enum containing the block names along with their respective id.
+     * 
+     * @deprecated - Use PWCatalog#getBlocks();
      */
 
     getListBlocks(skipCache: boolean | undefined, toObject: true) : Promise<Record<string, ListBlockResult>>;
@@ -260,6 +249,8 @@ export default class PWApiClient {
      * This is automatically invoked when getRoomTypes() is invoked to clear cache.
      * 
      * Note: This library also exports "BlockNames" which is an enum containing the block names along with their respective id.
+     * 
+     * @deprecated - Use PWCatalog#getBlocks();
      */
     static async getListBlocks(skipCache: boolean | undefined, toObject: true, EndpointURL?: string) : Promise<Record<string, ListBlockResult>>;
     static async getListBlocks(skipCache?: boolean, toObject?: false, EndpointURL?: string) : Promise<ListBlockResult[]>;
