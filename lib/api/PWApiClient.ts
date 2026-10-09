@@ -117,8 +117,8 @@ export default class PWApiClient {
      */
     async getJoinKey(roomId: string, version?: string) {
         return this.request<JoinKeyResult>(`${this.options.endpoints.Api}/api/joinkey/${roomId}`, {
-            ProtoVersion: version ?? await this.getVersion()//this.gameVersion
-        } satisfies { ProtoVersion: string }, true, this.options.endpoints.Api !== Endpoint.Api);
+            protoVersion: version ?? await this.getVersion()//this.gameVersion
+        } satisfies { protoVersion: string }, true, this.options.endpoints.Api !== Endpoint.Api);
     }
 
     /**
