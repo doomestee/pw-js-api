@@ -500,7 +500,12 @@ export default class PWApiClient {
      * @param overrideURL If true, this will skip checking if the URL truly belongs to PW (production wise).
      */
     static request<T>(url: string, body?: Record<string, any>|string, token?: string, overrideURL = false) : Promise<T> {
-        if (!overrideURL && !(url.startsWith(Endpoint.Api) || url.startsWith(Endpoint.GameHTTP) || url.startsWith(Endpoint.Client + "/atlases/"))) throw Error("URL given does not have the correct endpoint URL, this is for safety.");
+        if (!overrideURL &&
+            !(url.startsWith(Endpoint.Api)
+            || url.startsWith(Endpoint.GameHTTP)
+            || url.startsWith(Endpoint.Client + "/atlases/")
+            || url.startsWith(Endpoint.Client + "/catalog/")
+            )) throw Error("URL given does not have the correct endpoint URL, this is for safety.");
 
         const headers:Record<string, string> = {
             // "user-agent": "PW-TS-API/0.0.1"
